@@ -39,6 +39,8 @@ TELEGRAM_PROXY_PASSWORD = app.config.get('TELEGRAM_PROXY_PASSWORD') \
                           or os.environ.get('TELEGRAM_PROXY_PASSWORD')
 TELEGRAM_SOUND_NOTIFICATION_SEVERITY = app.config.get('TELEGRAM_SOUND_NOTIFICATION_SEVERITY') \
                           or os.environ.get('TELEGRAM_SOUND_NOTIFICATION_SEVERITY')
+TELEGRAM_NOTIFICATION_SEVERITY = app.config.get('TELEGRAM_NOTIFICATION_SEVERITY') \
+                          or os.environ.get('TELEGRAM_NOTIFICATION_SEVERITY')
 
 DASHBOARD_URL = app.config.get('DASHBOARD_URL', '') \
                 or os.environ.get('DASHBOARD_URL')
@@ -79,6 +81,9 @@ class TelegramBot(PluginBase):
     def post_receive(self, alert):
 
         if alert.repeat:
+            return
+
+        if TELEGRAM_NOTIFICATION_SEVERITY and alert.severity not in TELEGRAM_NOTIFICATION_SEVERITY:
             return
 
         try:
