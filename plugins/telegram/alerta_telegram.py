@@ -83,6 +83,9 @@ class TelegramBot(PluginBase):
         if alert.repeat:
             return
 
+        if alert.status == 'shelved':
+            return
+
         if TELEGRAM_NOTIFICATION_SEVERITY and alert.severity not in TELEGRAM_NOTIFICATION_SEVERITY:
             return
 
